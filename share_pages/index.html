@@ -58,7 +58,38 @@
         <div class="swiper-container" id="content" style="width:100%">
             <div class="swiper-wrapper">
                 <div class="swiper-slide left" >
-                    111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+                    11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br><br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+                    <br><br>11111
+                    <br>11111
+                    <br>11111
+                    <br>11111
+
                 </div>
                 <div class="swiper-slide right">
                     22222
@@ -66,18 +97,44 @@
             </div>
         </div>
     </div>
-    
+    <div class="footer border-top">
+        <div class="footer-item"><i class="iconfont icon-fenlei"></i><span>花型分类</span></div>
+        <div class="footer-item"><i class="iconfont icon-icon-yxj-empty-store"></i><span>厂家介绍</span></div>
+        <div class="footer-item"><i class="iconfont icon-iconfontdianhua"></i><span>联系厂家</span></div>
+    </div>
 <script src="../src/js/utils.js"></script>
 <script src="../src/js/swiper-3.4.2.min.js"></script>
 <script>
-    var contentSwiper = new Swiper('#content', {
-        // autoHeight: true,
-        spaceBetween: 30,
-        onSlideChangeEnd: function() {
-
+    (function() {
+        var contentSwiper,
+            tabItem = document.getElementsByClassName('tab-item');
+        contentSwiper = new Swiper('#content', {
+            // autoHeight: true,
+            spaceBetween: 30,
+            onSlideChangeEnd: function(swiper) {
+                for (var i = 0; i < tabItem.length; i++) {
+                    tabItem[i].className = tabItem[i].className.split('active').join(' ');
+                }
+                tabItem[swiper.activeIndex].className += ' active';
+            }
+        });
+        addActive(tabItem);
+        slideControl();
+        function slideControl() {
+            var i,
+                n,
+                len = tabItem.length;
+            for (i = 0; i < len; i++) {
+                (function(i) {
+                    tabItem[i].addEventListener('click', function() {
+                        // console.log(i)
+                        contentSwiper.slideTo(i, 300, false);
+                    }, false);
+                })(i);
+            }
         }
-    });
-    
+    })();
+
 </script>
 </body>
 </html>

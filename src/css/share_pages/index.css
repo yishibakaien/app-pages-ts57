@@ -5,6 +5,7 @@ html, body {
 }
 .header {
     display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
     position: relative;
     box-sizing: border-box;
@@ -42,6 +43,7 @@ html, body {
     flex: 1;
     -webkit-flex: 1;
     display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
     position: relative;
     overflow: hidden;
@@ -83,6 +85,7 @@ html, body {
     flex: 0 0 57px;
     -webkit-flex: 0 0 57px;
     display: flex;
+    display: -webkit-flex;
     display: -webkit-box;
 }
 .header .star-wrapper .pageview {
@@ -109,10 +112,12 @@ html, body {
 }
 
 .main {
-    background: #f1f1f1;
+    /*background: #f1f1f1;*/
+
 }
 .main .tab {
     display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
     position: relative;
     z-index: 2;
@@ -128,32 +133,61 @@ html, body {
 }
 .main .tab-item .text {
     display: inline-block;
+    box-sizing: border-box;
     height: 100%;
 }
 .main .tab-item.active .text {
-    box-sizing: border-box;
     color: #4c93fd;
     border-bottom:2px solid #4c93fd;
 }
-#content {
+.swiper-container {
+    /*height: 400px;*/
     position: absolute;
     top: 113px;
-    width: 100%;
-    left: 0;
-    bottom: 40px;
+    bottom: 50px;
     overflow: hidden;
 }
-#content .swiper-wrapper{
-    position: absolute;
-    width: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    background: #f1f1f1;
-}
-#content .swiper-slide {
+.swiper-container .swiper-wrapper{
     
 }
-#content .left {
-    height: 1200px;
-    background: red
+.swiper-container .swiper-slide {
+    overflow-y: scroll; 
+    -webkit-overflow-scrolling: touch;
+    /*padding-bottom: 5rem;*/
+}
+.swiper-container .left {
+   /* height: 1200px;
+    background: red*/
+}
+
+.footer {
+    display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+}
+.footer .footer-item {
+    flex: 1;
+    -webkit-flex: 1;
+    height: 28px;
+    line-height: 28px;
+    margin-top: 11px;
+    font-size: 15px;
+    border-right: 1px solid #d1d1d1;
+}
+.footer .footer-item:last-child {
+    border-right: 0;
+}
+.footer .footer-item:active {
+    color: #4c93fd;
+}
+.footer .footer-item .iconfont {
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 4px;
 }
