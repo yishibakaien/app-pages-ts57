@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="../src/css/common/reset.css">
+    <link rel="stylesheet" href="../src/css/common/common.css">
+    <link rel="stylesheet" href="../src/css/register/register.css">
+    <link rel="stylesheet" href="../src/font/iconfont.css">
+    <title>注册安全验证</title>
+</head>
+<body>
+<div class="register">
+    <div class="nav">
+        <span>选择身份--></span>
+        <span>安全验证--></span>
+        <span class="active">免费注册</span>
+    </div>
+    <div class="input-wrapper">
+        <div class="input-content">
+            <div class="list border-bottom">
+                <input class="username" type="text" autofocus="true" placeholder="请输入您的姓名">
+            </div>
+            <div class="list border-bottom">
+                <input class="firmname" type="text" placeholder="请输入企业名称">
+            </div>
+            <div class="list border-bottom">
+                <input class="password" type="password" placeholder="请输入密码">
+            </div>
+            <div class="list border-bottom">
+                <input class="checkpassword" type="password" placeholder="请再次输入上面的密码">
+            </div>
+        </div>
+    </div>
+
+    <div class="button-wrapper">
+        <button id="next" class="button button-block button-blue" disabled>确认注册</button>
+    </div> 
+    
+</div>
+<script src="../src/js/utils.js"></script>
+<script>
+'use strict';
+(function() {
+    var iptUsername = document.getElementsByClassName('username')[0],
+        iptFirmname = document.getElementsByClassName('firmname')[0],
+        iptPassword = document.getElementsByClassName('password')[0],
+        iptCheckpassword = document.getElementsByClassName('checkpassword')[0],
+        next = document.getElementById('next'),
+        urlPramars = getRequest(),
+        username,
+        firmname,
+        password,
+        checkpassword,
+        checkpasswordFlag = false,
+        message = {
+            usernameText: '请输入正确的姓名',
+            firmnameText: '企业名称长度需大于等于3位',
+            passwordText: '密码长度需大于等于6位',
+            checkpasswordText: '两次输入的密码不一致'
+        }
+
+    iptUsername.oninput = function() {
+        username = this.value;
+        checkForm();
+    }
+    iptPassword.oninput = function() {
+        password = this.value;
+        checkForm();
+    }
+    iptCheckpassword.oninput = function() {
+        checkpassword = this.value;
+        if (checkpassword !== password) {
+            checkpasswordFlag = false;
+            if (checkpassword.length >= password.length) {
+                blackTip(message.checkpasswordText);
+            }
+        } else {
+            checkpasswordFlag = true;
+        }
+        checkForm();
+    }
+    iptFirmname.oninput = function() {
+        firmname = this.value;
+        checkForm();
+    }
+
+    iptUsername.onblur = function() {
+        if (!testName(username)) {
+            blackTip(message.usernameText);
+        }
+    }
+    iptFirmname.onblur = function() {
+        if (!testFirmName(firmname)) {
+            blackTip(message.firmnameText);
+        }
+    }
+    iptPassword.onblur = function() {
+        if (!testPwd(password)) {
+            blackTip(message.passwordText);
+        }
+    }
+    iptCheckpassword.onblur = function() {
+        if (checkpassword !== password) {
+            blackTip(message.checkpasswordText);
+            return;
+        } else {
+            checkpasswordFlag = true;
+        }
+    }
+
+    next.onclick = function() {
+        alert('用户类型：' + (urlPramars.userType == 1 ? '贸易商' : '厂商')+ '\n' + '电话号码：' + urlPramars.tel + '\n'
+                + '用户姓名：' + username + '\n' + '企业名称：' + firmname + '\n' + '密码：' + password
+            );
+    }
+    function checkForm() {
+        if (_check()) {
+            next.removeAttribute('disabled');
+        } else {
+            next.setAttribute('disabled', 'disabled');
+        }
+
+        function _check() {
+            if (testName(username) && testPwd(password) && testFirmName(firmname) && checkpasswordFlag) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+})();
+</script>
+</body>
+</html>

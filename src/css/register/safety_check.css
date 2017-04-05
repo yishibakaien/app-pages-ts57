@@ -1,0 +1,42 @@
+.safety-check .nav {
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    text-align: center;
+}
+.safety-check .nav .active {
+    color: #ff7011;
+}
+.safety-check .input-wrapper {
+    width: 100%;
+    background: #fff;
+}
+.safety-check .input-content{
+    margin-left: 16px
+}
+.safety-check .input-wrapper .list {
+    height: 48px;
+    position: relative;
+}
+.safety-check .input-wrapper .list input {
+    height: 32px;
+    line-height: 32px;
+    padding: 8px 0;
+    display: block;
+    width: 90%;
+    font-size: 15px;
+}
+.safety-check .getVcode .button {
+    font-size: 12px;
+    line-height: 14px;
+    padding: 8px 6px;
+}
+.safety-check .getVcode{
+    position: absolute;
+    right: 16px;
+    top: 9px;
+}
+
+.button-wrapper {
+    padding: 50px 16px;
+}

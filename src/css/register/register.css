@@ -1,0 +1,32 @@
+
+.register .nav {
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    text-align: center;
+}
+.register .nav .active {
+    color: #ff7011;
+}
+.register .input-wrapper {
+    width: 100%;
+    background: #fff;
+}
+.register .input-content{
+    margin-left: 16px
+}
+.register .input-wrapper .list {
+    height: 48px;
+    position: relative;
+}
+.register .input-wrapper .list input {
+    height: 32px;
+    line-height: 32px;
+    padding: 8px 0;
+    display: block;
+    width: 90%;
+    font-size: 15px;
+}
+.button-wrapper {
+    padding: 50px 16px;
+}
