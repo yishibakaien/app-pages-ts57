@@ -92,43 +92,93 @@
 
                 </div>
                 <div class="swiper-slide right">
-                    22222
+                    <div class="supply-list">
+                        <div class="img-wrapper">
+                            <!-- <img class="img" src="../src/images/patterns2.png"> -->
+                        </div>
+                        <div class="content">
+                            <h1 class="title">大量供应这款面料，要的速度大量供应这款面料，要的速度</h1>
+                            <span class="type">成品</span>
+                            <span class="time">2017-03-05</span>
+                            <i class="iconfont icon-back"></i>
+                        </div>
+                    </div>
+                    <div class="supply-list">
+                        <div class="img-wrapper">
+                            <!-- <img class="img" src="../src/images/patterns2.png"> -->
+                        </div>
+                        <div class="content">
+                            <h1 class="title">大量供应这款面料，要的速度大量供应这款面料，很长的标题很长的标题很长的标题很长的标题很长的标题很长的标题很长的标题很长的标题。要的速度大量供应这款面料</h1>
+                            <span class="type">成品</span>
+                            <span class="time">2017-03-05</span>
+                            <i class="iconfont icon-back"></i>
+                        </div>
+                    </div>
+
+                    <div class="more-button">
+                        查看全部
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="footer border-top">
-        <div class="footer-item"><i class="iconfont icon-fenlei"></i><span>花型分类</span></div>
-        <div class="footer-item"><i class="iconfont icon-icon-yxj-empty-store"></i><span>厂家介绍</span></div>
-        <div class="footer-item"><i class="iconfont icon-iconfontdianhua"></i><span>联系厂家</span></div>
+        <div class="footer-item" link="./patterns_classify.html"><i class="iconfont icon-fenlei"></i><span>花型分类</span></div>
+        <div class="footer-item" link="./introduce.html"><i class="iconfont icon-icon-yxj-empty-store"></i><span>厂家介绍</span></div>
+        <div class="footer-item" tel="18650470415"><i class="iconfont icon-iconfontdianhua"></i><span>联系厂家</span></div>
     </div>
 <script src="../src/js/utils.js"></script>
 <script src="../src/js/swiper-3.4.2.min.js"></script>
 <script>
     (function() {
-        var contentSwiper,
-            tabItem = document.getElementsByClassName('tab-item');
-        contentSwiper = new Swiper('#content', {
-            // autoHeight: true,
-            spaceBetween: 30,
-            onSlideChangeEnd: function(swiper) {
-                for (var i = 0; i < tabItem.length; i++) {
-                    tabItem[i].className = tabItem[i].className.split('active').join(' ');
-                }
-                tabItem[swiper.activeIndex].className += ' active';
-            }
-        });
+        var tabItem = document.getElementsByClassName('tab-item'),
+            footerItem = document.getElementsByClassName('footer-item'),
+            contentSwiper = new Swiper('#content', {
+                onSlideChangeEnd: swiperControl
+            });
         addActive(tabItem);
+        footerClick(footerItem);
         slideControl();
         function slideControl() {
             var i,
-                n,
                 len = tabItem.length;
             for (i = 0; i < len; i++) {
                 (function(i) {
                     tabItem[i].addEventListener('click', function() {
                         // console.log(i)
                         contentSwiper.slideTo(i, 300, false);
+                    }, false);
+                })(i);
+            }
+        }
+        function swiperControl(swiper) {
+            var i,
+                len = tabItem.length;
+            for (i = 0; i < len; i++) {
+                tabItem[i].className = tabItem[i].className.split('active').join(' ');
+            }
+            tabItem[swiper.activeIndex].className += ' active';
+        }
+
+        function  footerClick(eles) {
+            var i,
+                link,
+                tel,
+                len = eles.length;
+            for (i = 0; i < len; i++) {
+                (function(i) {
+                    eles[i].addEventListener('click', function() {
+                        url = this.getAttribute('link');
+                        tel = this.getAttribute('tel');
+                        if (!!url) {
+                            console.log(url);
+                            location.href = url;
+                            return;
+                        }
+                        if (!!tel) {
+                            console.log(tel);
+                            location.href = 'tel:' + tel;
+                        }
                     }, false);
                 })(i);
             }

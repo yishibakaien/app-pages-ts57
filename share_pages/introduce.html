@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="../src/css/common/reset.css">
+    <link rel="stylesheet" href="../src/css/common/common.css">
+    <link rel="stylesheet" href="../src/css/share_pages/introduce.css">
+    <link rel="stylesheet" href="../src/font/iconfont.css">
+    <title>厂家介绍</title>
+</head>
+<body>
+
+    <div class="title wrap">
+        <span class="left">坐视布管</span>
+        <div class="right">
+            <i class="iconfont icon-star"></i><span class="text">收藏</span>
+        </div>
+    </div>
+    <div class="desc wrap">
+        <div class="name border-bottom">
+            <span class="left">公司全称</span>
+            <span class="fullname">福建坐视布管有限限公司福建坐视布管有限限公司</span>
+        </div>
+        <div class="summary border-bottom">
+            <span class="left">公司简介</span>
+            <div class="text">福建坐视布管有限公司福建坐视布管有限公司福建坐视布管有限公司福建坐视布管有限公司</div>
+        </div>
+        <div class="position">
+            <span class="left">经营地址</span>
+            <span class="location">福建省长乐市湖南镇解放街55号</span>
+            <i class="iconfont icon-dingwei right" id="location" pos=""></i>
+        </div>
+    </div>
+    
+    <div class="qrcode wrap">
+        <span class="left">店铺名片</span>
+        <div class="right">
+            <i class="iconfont icon-erweima"></i><span class="text">店铺二维码</span>
+        </div>
+    </div>
+    <div class="picture wrap clearfix">
+        <span class="left">厂家风采</span>
+        <ul class="pic-wrapper">
+            <li class="pic"></li>
+            <li class="pic"></li>
+            <!-- <li class="pic"></li>
+            <li class="pic"></li> -->
+        </ul>
+    </div>
+
+    <div class="footer wrap border-top">
+        电话联系
+    </div>
+
+    <!-- 二维码界面 -->
+    <div class="mask" id="QRcodeMask">
+        <div class="qrc-content">
+            <div class="qrc-header">
+                <img class="avatar" src="../src/images/avatar.png" width="49" height="49">
+                <span class="name">福建长乐坐视布管科技有限公司</span>
+                <span class="close">&times;</span>
+            </div>
+            <div class="qrc-body" id="qrcodeBody"></div>
+            <p class="qrc-button">保存二维码</p>
+        </div>
+
+    </div>
+<script src="../src/js/qrcode.min.js"></script>
+<script>
+
+    var NAVIGATOR_BASE_URL = 'http://apis.map.qq.com/tools/poimarker?key=AM3BZ-TXLEJ-OTKFZ-FMNHW-DQMLO-35BND&referer=sasas&type=0'; 
+
+    (function() {
+        var locationIcon = document.getElementById('location'),
+            qrcodeClicker = document.querySelector('.qrcode .right'),
+            qrcodeContent = document.getElementsByClassName('qrc-content')[0],
+            qrcodeBody = document.getElementById('qrcodeBody'),
+            mask = document.getElementsByClassName('mask')[0],
+            qrcodeClose = document.getElementsByClassName('close')[0];
+
+        locationIcon.addEventListener('click', mapNavigation, false);
+
+        qrcodeClicker.addEventListener('click', showMask, false);
+
+        /*阻止事件冒泡*/
+        qrcodeContent.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }, false);
+
+        mask.addEventListener('click', hideMask, false);
+
+        qrcodeClose.addEventListener('click', hideMask, false);
+
+        var qrcode = new QRCode(qrcodeBody, {
+            text: location.href,
+            // width: 150,
+            // height: 150,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        function mapNavigation(marker, title, addr) {
+            location.href = NAVIGATOR_BASE_URL + '&marker=coord:25.78857,119.59904;title:长乐鲜花针织有限公司;addr:福建省长乐市松下镇龙纺工业区（西寨下）';
+        }
+
+        function hideMask() {
+            mask.style.display = 'none';
+        }
+        function showMask() {
+            mask.style.display = 'block';
+        }
+    })();
+</script>
+</body>
+</html>
