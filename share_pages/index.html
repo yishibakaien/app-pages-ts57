@@ -57,7 +57,8 @@
         </div>
         <div class="swiper-container" id="content" style="width:100%">
             <div class="swiper-wrapper">
-                <div class="swiper-slide left" >
+                <div class="swiper-slide left" id="wrapper1">
+                    <div>
                     11111
                     <br>11111
                     <br>11111
@@ -88,10 +89,11 @@
                     <br><br>11111
                     <br>11111
                     <br>11111
-                    <br>11111
-
+                    <br>2222
+                    </div>
                 </div>
-                <div class="swiper-slide right">
+                <div class="swiper-slide right" id="wrapper2">
+                    <div>
                     <div class="supply-list">
                         <div class="img-wrapper">
                             <!-- <img class="img" src="../src/images/patterns2.png"> -->
@@ -114,9 +116,35 @@
                             <i class="iconfont icon-back"></i>
                         </div>
                     </div>
-
-                    <div class="more-button">
+                    <div class="supply-list">
+                        <div class="img-wrapper">
+                            <!-- <img class="img" src="../src/images/patterns2.png"> -->
+                        </div>
+                        <div class="content">
+                            <h1 class="title">一个短的标题一个短的标题一个短的标题</h1>
+                            <span class="type">成品</span>
+                            <span class="time">2017-03-05</span>
+                            <i class="iconfont icon-back"></i>
+                        </div>
+                    </div>
+                    <div class="supply-list">
+                        <div class="img-wrapper">
+                            <!-- <img class="img" src="../src/images/patterns2.png"> -->
+                        </div>
+                        <div class="content">
+                            <h1 class="title">标题</h1>
+                            <span class="type">胚布</span>
+                            <span class="time">2017-03-05</span>
+                            <i class="iconfont icon-back"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="more-button" link="./all_supply.html">
                         查看全部
+                    </div>
+                    
+                    <br>
+                    
                     </div>
                 </div>
             </div>
@@ -128,6 +156,7 @@
         <div class="footer-item" tel="18650470415"><i class="iconfont icon-iconfontdianhua"></i><span>联系厂家</span></div>
     </div>
 <script src="../src/js/utils.js"></script>
+<script src="../src/js/bscroll.min.js"></script>
 <script src="../src/js/swiper-3.4.2.min.js"></script>
 <script>
     (function() {
@@ -135,9 +164,22 @@
             footerItem = document.getElementsByClassName('footer-item'),
             contentSwiper = new Swiper('#content', {
                 onSlideChangeEnd: swiperControl
-            });
+            }),
+            moreButton = document.getElementsByClassName('more-button')[0];
+            new BScroll(document.getElementById('wrapper1'), {click: true});
+            new BScroll(document.getElementById('wrapper2'), {click: true});
+
         addActive(tabItem);
         footerClick(footerItem);
+        footerClick(moreButton);
+        moreButton.addEventListener('click', function() {
+            var url = this.getAttribute('link');
+            if (!!url) {
+                console.log(url);
+                location.href = url;
+                return;
+            }
+        }, false);
         slideControl();
         function slideControl() {
             var i,

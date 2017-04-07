@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="../src/css/common/reset.css">
+    <link rel="stylesheet" href="../src/css/common/common.css">
+    <link rel="stylesheet" href="../src/css/share_pages/patterns_list.css">
+    <link rel="stylesheet" href="../src/font/iconfont.css">
+    <title>花型分类</title>
+</head>
+<body style="background: #f1f1f1">
+    <div class="patterns-wrapper clearfix">
+        <div class="patterns">
+            <div class="img"></div>
+            <p class="number">#20001</p>
+            <p class="price">￥10/码</p>
+        </div>
+        <div class="patterns">
+            <div class="img"></div>
+            <p class="number">#20001</p>
+            <p class="price">价格面议</p>
+        </div>
+        <div class="patterns">
+            <div class="img"></div>
+            <p class="number">#20001</p>
+            <p class="price">￥10/码</p>
+        </div>
+    </div>
+<script src="../src/js/utils.js"></script>
+<!-- <script src="../src/js/bscroll.min.js"></script> -->
+
+<script>
+
+    String.prototype.repeat = String.prototype.repeat || function(num) {
+        var str = '',
+            i;
+        if (typeof num !== 'number') {
+            throw new Error('must be number');
+        }
+        for (i = 0; i < num; i++) {
+            str += this;
+        }
+        return str;
+    }
+    console.log('hello'.repeat(3));
+
+</script>
+</body>
+</html>

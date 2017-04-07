@@ -6,6 +6,7 @@
         content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" type="text/css" href="../src/css/common/reset.css">
     <link rel="stylesheet" href="../src/css/common/common.css">
+    <link rel="stylesheet" href="../src/css/common/swiper-3.4.2.min.css">
     <link rel="stylesheet" href="../src/css/share_pages/introduce.css">
     <link rel="stylesheet" href="../src/font/iconfont.css">
     <title>厂家介绍</title>
@@ -65,9 +66,24 @@
             <div class="qrc-body" id="qrcodeBody"></div>
             <p class="qrc-button">保存二维码</p>
         </div>
+    </div>
 
+    <div class="mask" id="pictureMask">
+        <div class="swiper-container" id="content">
+            <div class="swiper-wrapper" >
+                <div class="swiper-slide">
+                    <img src="../src/images/patterns2.png">
+                </div>
+                <div class="swiper-slide">
+                    <img src="../src/images/patterns1.png">
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <span class="close">&times;</span>
+        </div>
     </div>
 <script src="../src/js/qrcode.min.js"></script>
+<script src="../src/js/swiper-3.4.2.min.js"></script>
 <script>
 
     var NAVIGATOR_BASE_URL = 'http://apis.map.qq.com/tools/poimarker?key=AM3BZ-TXLEJ-OTKFZ-FMNHW-DQMLO-35BND&referer=sasas&type=0'; 
@@ -77,12 +93,15 @@
             qrcodeClicker = document.querySelector('.qrcode .right'),
             qrcodeContent = document.getElementsByClassName('qrc-content')[0],
             qrcodeBody = document.getElementById('qrcodeBody'),
-            mask = document.getElementsByClassName('mask')[0],
+            QRcodeMask = document.getElementById('QRcodeMask'),
+            pictureMask = document.getElementById('pictureMask'),
+            pics = document.querySelectorAll('.picture .pic'),
+            swiperClose = document.querySelector('#pictureMask .close'),
             qrcodeClose = document.getElementsByClassName('close')[0];
 
         locationIcon.addEventListener('click', mapNavigation, false);
 
-        qrcodeClicker.addEventListener('click', showMask, false);
+        qrcodeClicker.addEventListener('click', function() { showMask(QRcodeMask) }, false);
 
         /*阻止事件冒泡*/
         qrcodeContent.addEventListener('click', function(e) {
@@ -90,10 +109,22 @@
             e.stopPropagation();
         }, false);
 
-        mask.addEventListener('click', hideMask, false);
+        QRcodeMask.addEventListener('click', function() { hideMask(QRcodeMask) }, false);
 
-        qrcodeClose.addEventListener('click', hideMask, false);
+        qrcodeClose.addEventListener('click', function() { hideMask(QRcodeMask) }, false);
 
+        swiperClose.addEventListener('click', function() { hideMask(pictureMask) }, false);
+
+        Array.from(pics).forEach(function(item, index) {
+            item.addEventListener('click', function() {
+                pictureMask.style.display = 'block';
+                var swiper = new Swiper('.swiper-container', {
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true
+                });
+                
+            }, false);
+        });    
         var qrcode = new QRCode(qrcodeBody, {
             text: location.href,
             // width: 150,
@@ -107,11 +138,11 @@
             location.href = NAVIGATOR_BASE_URL + '&marker=coord:25.78857,119.59904;title:长乐鲜花针织有限公司;addr:福建省长乐市松下镇龙纺工业区（西寨下）';
         }
 
-        function hideMask() {
+        function hideMask(mask) {
             mask.style.display = 'none';
         }
 
-        function showMask() {
+        function showMask(mask) {
             mask.style.display = 'block';
         }
     })();

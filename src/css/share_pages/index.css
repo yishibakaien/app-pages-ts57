@@ -153,6 +153,8 @@ html, body {
 .swiper-container .swiper-slide {
     overflow-y: scroll; 
     -webkit-overflow-scrolling: touch;
+    height: 100%;
+    overflow: hidden;
     background: #f1f1f1;
 }
 .swiper-container .left {
@@ -220,7 +222,7 @@ html, body {
 }
 
 .more-button {
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
 
