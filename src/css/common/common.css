@@ -1,6 +1,7 @@
 html, body {
     background: #f1f1f1;
     color: #333;
+    font-family: 'Microsoft YaHei';
 }
 body {
     -webkit-tap-highlight-color: transparent;
@@ -124,7 +125,9 @@ input::-webkit-input-palceholder {
     position: absolute;
     top: 50%;
     left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
+
 }
       
 .tag.stalls {
@@ -137,6 +140,7 @@ input::-webkit-input-palceholder {
     position: absolute;
     top: 50%;
     left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
 }
 

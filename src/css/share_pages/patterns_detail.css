@@ -59,13 +59,13 @@
     color: #439cfd;
 }
 .desc-wrapper .right {
-    -webkit-flex: 0 0 70px;
-    flex: 0 0 70px;
+    /*-webkit-flex: 0 0 70px;
+    flex: 0 0 70px;*/
     width: 70px;
-    /*background: red;*/
 }
 .desc-wrapper .right .save {
     border-left: 1px solid #d9d9d9;
+    width: 100%;
     padding: 4px 0;
     text-align: right;
 }
