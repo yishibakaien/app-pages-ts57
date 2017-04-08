@@ -46,5 +46,17 @@
 
 <script src="../src/js/utils.js"></script>
 <script src="../src/js/bscroll.min.js"></script>
+<script>
+    var supplyList = document.getElementsByClassName('supply-list'),
+        i,
+        len = supplyList.length;
+    for (i = 0; i < len; i++) {
+        (function(i) {
+            supplyList[i].addEventListener('click', function() {
+                location.href = './patterns_detail.html';
+            }, false);
+        })(i);
+    }
+</script>
 </body>
 </html>
