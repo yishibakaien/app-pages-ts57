@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>3D在线试衣</title>
+<style>
+abbr,address,article,aside,audio,b,blockquote,body,body div,caption,cite,code,dd,del,details,dfn,dl,dt,em,fieldset,figure,footer,form,h1,h2,h3,h4,h5,h6,header,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,p,pre,q,samp,section,small,span,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,ul,var,video{margin:0;padding:0;border:0;font-size:100%;font-weight:400;vertical-align:baseline;background:0 0}article,aside,details,figure,footer,header,main,nav,section,summary{display:block}html{box-sizing:border-box}body,html{width:100%}*,:after,:before{box-sizing:inherit}embed,img,object{max-width:100%}html{overflow-y:scroll}ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:0 0}a{color:#7e8c8d;text-decoration:none;-webkit-backface-visibility:hidden}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:separate;border-spacing:0}th{font-weight:700;vertical-align:bottom}td{font-weight:400;vertical-align:top}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}pre{white-space:pre;white-space:pre-wrap;white-space:pre-line;word-wrap:break-word}input[type=radio]{vertical-align:text-bottom}input[type=checkbox]{vertical-align:bottom}.ie7 input[type=checkbox]{vertical-align:baseline}.ie6 input{vertical-align:text-bottom}input,select,textarea{font:99% sans-serif}table{font-size:inherit;font:100%}small{font-size:85%}strong{font-weight:700}td,td img{vertical-align:top}sub,sup{font-size:75%;line-height:0;position:relative}sup{top:-.5em}sub{bottom:-.25em}code,kbd,pre,samp{font-family:monospace,sans-serif}.clickable,button,input[type=button],input[type=file],input[type=submit],label{cursor:pointer}button,input,select,textarea{margin:0}button,input[type=button]{width:auto;overflow:visible}::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track-piece{background-color:rgba(0,0,0,.2);-webkit-border-radius:6px}::-webkit-scrollbar-thumb:vertical{height:5px;background-color:rgba(125,125,125,.7);-webkit-border-radius:6px}::-webkit-scrollbar-thumb:horizontal{width:5px;background-color:rgba(125,125,125,.7);-webkit-border-radius:6px}body{-webkit-text-size-adjust:none;-webkit-tap-heighlight-color:transparent}
+</style>
+<style>
+  .clearfix{
+    display: inline-block
+  }
+  .clearfix:after{
+    display: block;
+    content: ".";
+    height: 0;
+    line-height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  .wrapper{
+    padding: 16px;
+    height: 100%;
+  }
+  .modles-prototype {
+    text-align: center;
+  }
+  .modles-prototype ul {
+  }
+  .modles-prototype li{
+    display: inline-block;
+    width: 30%;
+    vertical-align: top;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+    margin: 15px auto 0 auto;
+  }
+  .modles-prototype li img{
+    height: 100%;
+    width: 100%;
+  }
+  .modle-container{
+    display: none;
+    position: fixed;
+    padding: 16px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+    z-index: 10;
+    background-color: #fff;
+  }
+.modle-img-wrapper{
+    position: relative;
+   background-size: 50%;
+   background: #666;
+}
+.modle-img-wrapper:after{
+    content: ' ';
+    display: block;
+    width: 100%;
+    position: absolute;
+    height: 5px;
+    bottom: 0;
+    background: #fff;
+}
+
+.modle-img-wrapper img{
+    width: 100%;
+    display: inline-block;
+    position: relative;
+}
+
+  #switch,
+  #uploadfilebtn,
+  #back {
+    position: absolute;
+    z-index: 101;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 14px;
+    background: rgba(51,133,255, 0.5);
+    color: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  }
+  #back {
+    right: 16px;
+    top: 16px;
+  }
+  #switch{
+    right: 16px;
+    top: 64px;
+  }
+  #uploadfilebtn {
+    right: 16px;
+    top: 112px;
+  }
+  #iptUpload {
+    display: block;
+    width: 80px;
+    height: 32px;
+    overflow: hidden;
+    position: absolute;
+    right: 16px;
+    top: 118px;
+    z-index: 120;
+    -webkit-appearance: none;
+    opacity: 0;
+  }
+  .modles-leftside-container{
+    /*display: none;*/
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 45%;
+    padding: 16px;
+    bottom: 0;
+    background: #fff;
+    z-index: 20;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    overflow-y : auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .show-slide {
+    animation: showSlide 0.5s forwards;
+    -webkit-animation: showSlide 0.5s forwards;
+  }
+  .hide-slide {
+    animation: hideSlide 0.5s forwards;
+    -webkit-animation: hideSlide 0.5s forwards;
+  }
+  .range{
+    padding: 16px;
+    text-align: center;
+  }
+  .mask{
+    position: fixed;
+    z-index: 15;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(7,17,27,0.6);
+    display: none;
+  }
+  .range{
+    position: fixed;
+    bottom: 40px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  input[type="range"] {
+      margin-top: 10px;
+      background-color: #ff7011;
+      width: 200px;
+      border-radius: 5px;
+      height: 10px;
+      -webkit-appearance: none;
+
+  }
+  input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      top: -5px;
+      height: 30px;
+      width: 30px;
+      background: none repeat scroll 0 0 #3385ff;
+      border-radius: 50%;
+  }
+@keyframes showSlide {
+    0% {left: -100%;}
+    100% {left: 0%;}
+}
+@keyframes hideSlide {
+    0% {left: 0%;}
+    100% {left: -100%;}
+}
+@-webkit-keyframes showSlide {
+    0% {left: -100%;}
+    100% {left: 0%;}
+}
+@-webkit-keyframes hideSlide {
+    0% {left: 0%;}
+    100% {left: -100%;}
+}
+</style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="mask"></div>
+    <div class="modles-leftside-container">
+      <h1>切换模特</h1>
+      <hr>
+      <ul class="clearfix">
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_front.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_side.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_back.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_all.jpg">
+        </li>
+        
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_front.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_side.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_back.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_all.jpg">
+        </li>
+
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_front.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_side.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_back.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_all.jpg">
+        </li>
+
+      </ul>
+    </div>
+    <h1>选择模特</h1>
+    <hr>
+    <div class="modles-prototype">
+      <ul class="clearfix">
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_front.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_side.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_back.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle1_all.jpg">
+        </li>
+        
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_front.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_side.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_back.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle2_all.jpg">
+        </li>
+
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_front.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_side.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_back.jpg">
+        </li>
+        <li>
+          <img src="../src/images/cpwz_images/modles_prototype/modle3_all.jpg">
+        </li>
+      </ul>
+    </div>
+
+    <div class="modle-container clearfix">
+        <div id="back">返回列表</div>
+        <div id="switch">切换模特</div>
+        <div id="uploadfilebtn">拍照试衣</div>
+        
+        <input type="file"  id="iptUpload" name="file"/>
+
+        <!-- <div id="preview">
+          <img id="imghead" width=100 height=100 border=0>
+        </div>
+ -->    <div class="modle-img-wrapper">   
+            <img src="../src/images/cpwz_images/modles/modle4_all.png">
+        </div>
+        <div class="range">
+            <div>花纹大小</div>
+            <input id="range" type="range" step="10" max="150" min="10">
+        </div>
+    </div>
+  </div>
+
+<script>
+(function() {
+    function c(str) {
+        var str1 = str.charAt(0);
+        var strsub = str.substr(1);
+        switch (str1) {
+            case '#':
+                return document.getElementById(strsub);
+                break;
+            case '.':
+                return document.getElementsByClassName(strsub);
+                break;
+            default:
+                return document.getElementsByTagName(str);
+                break;
+        }
+    }
+    function getQueryString(key){
+        var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+        var result = window.location.search.substr(1).match(reg);
+        return result?decodeURIComponent(result[2]):null;
+    }
+
+    function bind(el, event, func) {
+        el.addEventListener(event, func, false);
+    }
+    var modles = document.querySelectorAll('.modles-prototype img'),
+        modle = c('.modle-container')[0],
+        modlePic = modle.getElementsByTagName('img')[0],
+        back = c('#back'),
+        iptUpload = c('#iptUpload'),
+        wrapper = c('.modle-img-wrapper')[0],
+        btnSwitch = c('#switch'),
+        leftSideModles = c('.modles-leftside-container')[0],
+        leftSideModlesImg = leftSideModles.getElementsByTagName('img'),
+        mask = c('.mask')[0];
+
+      
+		//console.log(getQueryString("url"));
+    if (getQueryString("url")) {
+        modle.style.display = "block";
+        modlePic.onload = function () {
+            wrapper.style.background = 'url(' + encodeURI(getQueryString("url"))+ ')';
+            modlePic.onload = null;
+        }
+    }
+    for (var i = 0; i < modles.length; i++) {
+        (function(i) {
+            bind(modles[i], 'click', function() {
+                modlePic.onload = function() {
+                    modle.style.display = 'block';
+                    modlePic.onload = null;
+                }
+                modlePic.src = this.src.split('modles_prototype').join('modles').replace('.jpg', '.png');
+            });
+            bind(leftSideModlesImg[i], 'click', function() {
+                modlePic.src = this.src.split('modles_prototype').join('modles').replace('.jpg', '.png');
+            });
+        })(i);
+    }
+
+
+    bind(back, 'click', function() {
+        modle.style.display = "none";
+    });
+
+    bind(iptUpload, 'change', function() {
+        previewImage(this);
+    });
+
+    bind(range, 'input', function() {
+        wrapper.style.backgroundSize = this.value + '%';
+    });
+
+    bind(btnSwitch, 'click', function() {
+        
+        leftSideModles.className = 'modles-leftside-container show-slide';
+
+        mask.style.display = 'block';
+    });
+
+    bind(mask, 'click', function() {
+        this.style.display = 'none';
+        leftSideModles.className = 'modles-leftside-container hide-slide';
+    });
+    function previewImage(file) {
+        // console.log('file', file.files);
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            bind(reader, 'load', function(evt) {
+
+                wrapper.style.background = 'url(' + evt.target.result + ')';
+            });
+            reader.readAsDataURL(file.files[0]);
+        }
+    }
+})();
+</script>
+</body>
+</html>
