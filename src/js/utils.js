@@ -161,14 +161,69 @@ function addActive(els) {
     }
 }
 
+function Ajax(opts) {
+    var defaults = {
+        method: 'GET',
+        url: '',
+        data: '',
+        async: true,
+        cache: true,
+        contentType: 'application/x-www-form-urlencoded',
+        success: function() {},
+        error: function() {}
+    };
+    // 为defaults赋值
+    for (var key in opts) {
+        defaults[key] = opts[key];
+    }
+    // 将data转为str
+    if (typeof defaults.data === 'object') {
+        var str = '';
+        for (var key in defaults.data) {
+            str += key + '=' + defaults.data[key] + '&';
+        }
+        defaults.data = str.substring(0, str.length - 1);
+    }
+    // 处理请求方式
+    defaults.method = defaults.method.toUpperCase();
+    // 处理cache
+    defaults.cache = defaults.cache ? '' : '&' + new Date().getTime();
+    // 处理url 拼接字符串
+    if (defaults.method === 'GET' && (defaults.data || defaults.cache)) {
+        defaults.url += '?' + defaults.data + defaults.cache;
+    }
+    // 创建ajax 对象
+    xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.open(defaults.method, defaults.url, defaults.async);
+
+    // 处理 GTE POST
+    if (defaults.method === 'GET') {
+        xhr.setRequestHeader('x-client', '1');
+        xhr.setRequestHeader('x-version', '1.0');
+        xhr.send(null);
+    } else {
+        xhr.setRequestHeader('content-type', defaults.contentType);
+        xhr.send(defaults.data);
+    }
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                defaults.success.call(xhr, xhr.responseText);
+            } else {
+                defaults.error(xhr.responseText);
+            }
+        }
+    }
+}
+
 // 正则
 /** 电话*/
 function testTel(tel) {
-    return /^1(3|4|5|7|8)[0-9]\d{8}$/.test(tel || ""); 
+    return /^1(3|4|5|7|8)[0-9]\d{8}$/.test(tel || "");
 }
 /**密码 */
 function testPwd(pwd) {
-  return /.{6,}/.test(pwd || "");
+    return /.{6,}/.test(pwd || "");
 }
 /**用户名 */
 function testName(name) {
@@ -177,9 +232,9 @@ function testName(name) {
 
 /**企业名字 */
 function testFirmName(str) {
-  return /.{3,}/.test(str || "");
+    return /.{3,}/.test(str || "");
 }
 /**短信验证码 */
 function testVcode(str) {
-  return /\d{6}/.test( str || "" );
+    return /\d{6}/.test(str || "");
 }

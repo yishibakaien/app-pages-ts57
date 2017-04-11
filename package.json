@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "http-proxy": "^1.16.2",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   }

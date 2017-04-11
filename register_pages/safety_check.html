@@ -36,6 +36,9 @@
    
 </div>
 <script src="../src/js/utils.js"></script>
+<!-- <script src="../src/js/jquery-3.1.1.min.js"></script> -->
+<!-- <script src="../src/js/ajax.js"></script> -->
+<script src="../config/config.js"></script>
 <script>
 (function(){
     var iptTel = document.getElementsByClassName('tel')[0],
@@ -58,9 +61,34 @@
             testVcode: '验证码格式不正确',
             checkVcode: '验证码不正确，请重新输入'
         };
+
     iptTel.oninput = function() {
         tel = this.value;
         if (testTel(tel) && !getVcodeing) {
+            // Ajax({
+            //     url: baseURL + '/front/user/checkPhone',
+            //     data: {
+            //         mobile: tel
+            //     },
+            //     success: function(res) {
+            //         console.log('success', res);
+            //     },
+            //     error: function(res) {
+            //         console.log('fail', res);
+            //     }
+            // });
+            Ajax({
+                url: baseURL + '/front/user/checkPhone',
+                data: {
+                    mobile: tel
+                },
+                success: function(res) {
+                    console.log('success', res);
+                },
+                error: function(res) {
+                    console.log('error', res);
+                }
+            });
             getVcode.removeAttribute('disabled');
         } else {
             getVcode.setAttribute('disabled', 'disabled');
