@@ -65,18 +65,6 @@
     iptTel.oninput = function() {
         tel = this.value;
         if (testTel(tel) && !getVcodeing) {
-            // Ajax({
-            //     url: baseURL + '/front/user/checkPhone',
-            //     data: {
-            //         mobile: tel
-            //     },
-            //     success: function(res) {
-            //         console.log('success', res);
-            //     },
-            //     error: function(res) {
-            //         console.log('fail', res);
-            //     }
-            // });
             Ajax({
                 url: baseURL + '/front/user/checkPhone',
                 data: {
