@@ -6,13 +6,11 @@ var baseURL = (function(env) {
 
     var baseURL,
         urls,
-
     urls = {
         dev: 'http://localhost:3000',
         test: 'http://192.168.1.11:8080',
         prod: ''
     };
-
     if (env === 'dev') {
         baseURL = urls.dev;
     }
@@ -22,9 +20,8 @@ var baseURL = (function(env) {
     if (env === 'prod') {
         baseURL = urls.prod;
     }
-    
     return baseURL;
 
 })(env);
 
-console.log(baseURL);
+// console.log(baseURL);

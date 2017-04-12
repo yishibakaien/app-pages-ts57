@@ -26,6 +26,21 @@
     width: 90%;
     font-size: 15px;
 }
+.safety-check .input-wrapper .list .tip {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 16px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 12px;
+}
+.safety-check .input-wrapper .tip .text {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+    color: #999;
+}
 .safety-check .getVcode .button {
     font-size: 12px;
     line-height: 14px;

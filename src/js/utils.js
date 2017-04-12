@@ -11,14 +11,14 @@ function c(a) {
     }
 }
 /*黑色提示*/
-function blackTip(msg, time, callback) {
+function blackTip(msg, time, callback, type) {
     var blackTip,
         icon,
         blackTipStyle,
         text;
     if (document.getElementById('__blackTipSpan__')) {
         blackTip = document.getElementById('__blackTipSpan__');
-        icon = blackTip.getElementsByClassName('icon')[0];
+        // icon = blackTip.getElementsByClassName('icon')[0];
     } else {
         blackTip = document.createElement('div');
         icon = document.createElement('span');
@@ -33,13 +33,16 @@ function blackTip(msg, time, callback) {
         blackTip.appendChild(icon);
         blackTip.appendChild(text);
         blackTip.id = '__blackTipSpan__';
+
         icon.style.cssText = 'display:inline-block;height:50px;line-height:50px;width:50px;margin-bottom:10px;text-align:center;border-radius:50%;font-size:30px;color:rgba(7,17,27,0.8);background:#fff';
+
+        icon.style.display = 'none'; /*先隐藏*/
+
+        blackTip.style.cssText = 'z-index:100;position:fixed;min-width:25%;max-width:60%;background:rgba(7,17,27,0.8);color:#fff;padding:16px;font-size:14px;top:30%;left:50%;border-radius:5px;line-height:18px;text-align:center;word-break:break-all;-moz-transform:translateZ(0) translateX(-50%) translateY(-50%);-webkit-transform:translateZ(0) translateX(-50%) translateY(-50%);transform:translateZ(0) translateX(-50%) translateY(-50%);';
+        document.getElementsByTagName('body')[0].appendChild(blackTip);
     }
     blackTip.getElementsByClassName('msg')[0].innerText = msg || '提示信息';
-
-    blackTip.style.cssText = 'z-index:100;position:fixed;min-width:25%;max-width:60%;background:rgba(7,17,27,0.8);color:#fff;padding:16px;font-size:14px;top:30%;left:50%;border-radius:5px;line-height:18px;text-align:center;word-break:break-all;-moz-transform:translateZ(0) translateX(-50%) translateY(-50%);-webkit-transform:translateZ(0) translateX(-50%) translateY(-50%);transform:translateZ(0) translateX(-50%) translateY(-50%);';
-
-    document.getElementsByTagName('body')[0].appendChild(blackTip);
+    blackTip.style.display = 'block';
 
     var timer = setTimeout(function() {
         if (window.jQuery) {
@@ -179,9 +182,14 @@ function Ajax(opts) {
         data: '',
         async: true,
         cache: true,
-        contentType: 'application/x-www-form-urlencoded',
-        success: function() {},
-        error: function() {}
+        contentType: 'application/json',
+        headers: {},
+        success: function() {
+
+        },
+        error: function() {
+
+        }
     };
     // 为defaults赋值
     for (var key in opts) {
@@ -205,27 +213,38 @@ function Ajax(opts) {
     }
     // 创建ajax 对象
     xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+
+    // console.info(defaults.method);
+
     xhr.open(defaults.method, defaults.url, defaults.async);
+
+    // 设置header
+    for (var key in defaults.headers) {
+        xhr.setRequestHeader(key, defaults.headers[key]);
+    }
 
     // 处理 GTE POST
     if (defaults.method === 'GET') {
-        xhr.setRequestHeader('x-client', '1');
-        xhr.setRequestHeader('x-version', '1.0');
+        
         xhr.send(null);
     } else {
-        xhr.setRequestHeader('content-type', defaults.contentType);
-        xhr.send(defaults.data);
+        xhr.setRequestHeader('Content-Type', defaults.contentType);
+
+        xhr.send( defaults.data );
     }
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                defaults.success.call(xhr, xhr.responseText);
+                // console.log('xhr', xhr.responseText);
+                var response = JSON.parse(xhr.responseText);
+                defaults.success.call(xhr, response, xhr.status, xhr);
             } else {
                 defaults.error(xhr.responseText);
             }
         }
     }
 }
+
 
 // 正则
 /** 电话*/
@@ -247,5 +266,5 @@ function testFirmName(str) {
 }
 /**短信验证码 */
 function testVcode(str) {
-    return /\d{6}/.test(str || "");
+    return /\d{4}/.test(str || "");
 }

@@ -14,7 +14,6 @@
 <div class="choose-usertype">
     <div class="nav">
         <span class="active">选择身份--></span>
-        <span>安全验证--></span>
         <span>免费注册</span>
     </div>
     <div class="usertype-wrapper">
@@ -60,7 +59,7 @@
     }
     //blackTip('请选择一个身份');
     next.onclick = function () {
-        location.href = 'safety_check.html?userType=' + userType;
+        location.href = 'register.html?userType=' + userType;
     }
     addActive(els);
 })();

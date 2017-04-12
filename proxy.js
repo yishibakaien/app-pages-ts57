@@ -8,7 +8,8 @@ var httpProxy = require('http-proxy');
 
 var proxy = httpProxy.createProxyServer({
 
-    target: 'http://192.168.1.11:8080', //接口地址
+    target: 'http://192.168.1.103:8080', //接口地址
+    //target: 'http://192.168.1.11:8080', //接口地址
     // 下面的设置用于https
     // ssl: {
     // key: fs.readFileSync('server_decrypt.key', 'utf8'),
@@ -16,6 +17,7 @@ var proxy = httpProxy.createProxyServer({
     // },
     // secure: false
 });
+
 proxy.on('error', function(err, req, res) {
     res.writeHead(500, {
         'content-type': 'text/plain'
@@ -31,6 +33,7 @@ var server = http.createServer(function(request, response) {
     console.log(realPath);
     var ext = path.extname(realPath);
     ext = ext ? ext.slice(1) : 'unknown';
+    
     //判断如果是接口访问，则通过proxy转发
     if (pathname.indexOf("front") > 0) {
         console.log(123);
