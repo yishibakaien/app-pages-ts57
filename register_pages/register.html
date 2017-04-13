@@ -13,7 +13,8 @@
 <body>
 <div class="register">
     <div class="nav">
-        <span>选择身份--></span>
+        <span>选择身份</span>
+        <span>>>></span>
         <span class="active">免费注册</span>
     </div>
     <div class="input-wrapper">
@@ -26,7 +27,7 @@
             </div>
 
             <div class="list border-bottom">
-                <input class="tel" type="tel" maxlength="11" autofocus="true" placeholder="请输入注册手机号码">
+                <input class="tel" type="tel" maxlength="11" placeholder="请输入注册手机号码">
                 <span class="tip">
                     <i class="iconfont loading"></i>
                     <span class="text">检验手机号码</span>
@@ -39,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="list border-bottom">
+            <div class="list">
                 <input class="password" type="password" placeholder="请输入密码">
             </div>
 
@@ -112,7 +113,7 @@
     /*输入电话号码**/
     iptTel.oninput = function() {
         userData.userMobile = this.value;
-
+        console.log(userData.userMobile);
         if (testTel(userData.userMobile) && !gettingSMSCode) {
             tip.style.display = 'inline-block';
 
@@ -141,8 +142,9 @@
                     }
                 },
                 error: function(res) {
-                    console.error('error', res);
-                    blackTip(message.checkError);
+                    console.info('error', res);
+                    tip.style.display = 'none';
+                    blackTip(res.message);
                 }
             });
             
@@ -193,8 +195,8 @@
     getSMSCode.onclick = function() {
         var _this = this;
         if (!testTel(userData.userMobile)) {
-          blackTip(message.testTel);
-          return;
+            blackTip(message.testTel);
+            return;
         }
         this.setAttribute('disabled', 'disabled');
         gettingSMSCode = true;
@@ -259,13 +261,14 @@
                 },
                 success: function(res) {
                     console.log('success', res);
-                    blackTip(res.message);
-                    typeof cb === 'function' && cb();
+                    blackTip(res.message, 1000, function() {
+                        typeof cb === 'function' && cb();
+                    });
                 },
                 error: function(res) {
                     console.log(res);
                 }
-            })
+            });
         }
         function goIndex() {
             location.href = '../guide.html?registed=1';
@@ -273,11 +276,12 @@
     }
 
     String.prototype._repeat = String.prototype._repeat || function(num) {
+        var str = '',
+            i;
         if (typeof num !== 'number' || isNaN(num)) {
             return;
         }
-        var str = '',
-            i;
+
         for (i = 0; i < num; i++) {
             str += this;
         }
