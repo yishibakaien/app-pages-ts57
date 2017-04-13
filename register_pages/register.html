@@ -56,7 +56,6 @@
 </div>
 <script src="../src/js/utils.js"></script>
 <script src="../config/config.js"></script>
-<!-- <script src="../src/js/jquery-3.1.1.min.js"></script> -->
 <script>
 'use strict';
 
@@ -73,6 +72,7 @@
         urlPramars = getRequest(),
         gettingSMSCode = false, // 正在获取验证码（正在倒计时）状态
         Xtoken = '',
+        getSMSCodeCount = 0,
         seconds = 60,
         timer = null,
         userData = {
@@ -82,7 +82,7 @@
             smsCode: '',
 
             userPWD: '',
-            userType: ''
+            userType: urlPramars.userType
         },
         message = {
             usernameText: '请输入正确的姓名',
@@ -103,10 +103,12 @@
         userData.userName = this.value;
         checkForm();
     }
+
     iptFirmname.oninput = function() {
         userData.compenyName = this.value;
         checkForm();
     }
+
     /*输入电话号码**/
     iptTel.oninput = function() {
         userData.userMobile = this.value;
@@ -200,8 +202,6 @@
         var data = {mobile: userData.userMobile};
 
         var _data = JSON.stringify(data);
-
-        console.info(typeof _data);
         
         Ajax({
             method: 'POST',
@@ -209,7 +209,8 @@
             data: _data,
             headers: {
                 'x-version': '1.0',
-                'x-client': '1'
+                'x-client': '1',
+                'x-token': Xtoken
             },
             success: function(res) {
 
@@ -217,6 +218,7 @@
             },
             error: function(res) {
 
+                blackTip(res.message);
                 console.log(res);
             }
         });
@@ -235,13 +237,52 @@
         }, 1000);
     }
 
-
     next.onclick = function() {
-        alert('用户类型：' + (urlPramars.userType == 1 ? '贸易商' : '厂商')+ '\n' + '电话号码：' + userData.userMobile + '\n'
-                + '用户姓名：' + userData.userName + '\n' + '企业名称：' + userData.compenyName + '\n' + '密码：' + userData.userPWD
+        var _confirm = confirm('您的注册信息为：' + '\n' + '用户类型：' + (urlPramars.userType == 1 ? '贸易商' : '厂商')+ '\n' + '电话号码：' + userData.userMobile + '\n'
+                + '用户姓名：' + userData.userName + '\n' + '企业名称：' + userData.compenyName + '\n' + '密码：' + userData.userPWD.substr(0, 2) + ('*'._repeat(userData.userPWD.length - 4)) + userData.userPWD.substr(userData.userPWD.length - 2, userData.userPWD.length - 1)
             );
+        if (_confirm) {
+            register(goIndex);
+        }
+
+        function register(cb) {
+            var data = JSON.stringify(userData);
+            console.log(data);
+            Ajax({
+                method: 'POST',
+                url: baseURL + '/front/user/reg',
+                data: data,
+                headers: {
+                    'x-client': '1',
+                    'x-version': '1.0',
+                    'x-token': Xtoken
+                },
+                success: function(res) {
+                    console.log('success', res);
+                    blackTip(res.message);
+                    typeof cb === 'function' && cb();
+                },
+                error: function(res) {
+                    console.log(res);
+                }
+            })
+        }
+        function goIndex() {
+            location.href = '../guide.html?registed=1';
+        }
     }
 
+    String.prototype._repeat = String.prototype._repeat || function(num) {
+        if (typeof num !== 'number' || isNaN(num)) {
+            return;
+        }
+        var str = '',
+            i;
+        for (i = 0; i < num; i++) {
+            str += this;
+        }
+        return str;
+    }
     function checkForm() {
         if (_check()) {
             next.removeAttribute('disabled');
