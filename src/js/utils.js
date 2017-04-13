@@ -207,6 +207,7 @@ function Ajax(opts) {
     defaults.method = defaults.method.toUpperCase();
     // 处理cache
     defaults.cache = defaults.cache ? '' : '&' + new Date().getTime();
+    
     // 处理url 拼接字符串
     if (defaults.method === 'GET' && (defaults.data || defaults.cache)) {
         defaults.url += '?' + defaults.data + defaults.cache;
