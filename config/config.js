@@ -7,7 +7,8 @@ var baseURL = (function(env) {
     var baseURL,
         urls,
     urls = {
-        dev: 'http://localhost:3000',
+        // dev: 'http://localhost:3000',
+        dev: 'http://192.168.1.249:8080',
         test: 'http://192.168.1.11:8080',
         prod: ''
     };

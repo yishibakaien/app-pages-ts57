@@ -208,7 +208,7 @@ function Ajax(opts) {
         data: '',
         async: true,
         cache: true,
-        contentType: 'application/json',
+        contentType: 'text/plain',
         headers: {},
         timeout: 10000,
         success: function() {},
@@ -226,6 +226,7 @@ function Ajax(opts) {
         }
         defaults.data = str.substring(0, str.length - 1);
     }
+
     // 处理请求方式
     defaults.method = defaults.method.toUpperCase();
     // 处理cache
@@ -249,11 +250,11 @@ function Ajax(opts) {
             continue;
         }
         xhr.setRequestHeader(key, defaults.headers[key]);
+        // console.log(xhr)
     }
 
     // 处理 GTE POST
     if (defaults.method === 'GET') {
-
         xhr.send(null);
     } else if (defaults.method === 'POST') {
 

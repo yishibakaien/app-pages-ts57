@@ -117,6 +117,8 @@
         if (testTel(userData.userMobile) && !gettingSMSCode) {
             tip.style.display = 'inline-block';
 
+            console.warn('请求地址', baseURL + '/front/user/checkPhone');
+            console.warn('mobile', userData.userMobile);
             Ajax({
                 url: baseURL + '/front/user/checkPhone',
                 data: {
@@ -128,8 +130,9 @@
                 },
                 success: function(res, status, xhr) {
                     //var res = JSON.parse(res);
-                    console.log('res', res);
-                    console.log('status', status);
+                    console.log(res);
+                    console.log(status);
+                    console.log(xhr);
                     console.log('xhr', xhr.getResponseHeader('x-token'));
                     Xtoken = xhr.getResponseHeader('x-token');
                     if (res.data === true) {
