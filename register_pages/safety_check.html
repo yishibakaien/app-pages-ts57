@@ -36,7 +36,7 @@
     </div>
     <div class="button-wrapper">
         <button id="next" class="button button-block button-blue" disabled>下一步</button>
-    </div> 
+    </div>
 </div>
 <script src="../src/js/utils.js"></script>
 <script src="../src/js/jquery-3.1.1.min.js"></script>
@@ -102,7 +102,7 @@
                     blackTip(message.checkError);
                 }
             });
-            
+
         } else {
             getVcode.setAttribute('disabled', 'disabled');
         }
@@ -184,11 +184,11 @@
         }
     }
     next.onclick = function() {
-        
+
         // 这里checkCode
 
         if (true) {
-            location = 'register.html?tel=' + tel + '&userType=' + userType
+            location = 'register.html?userMobile=' + tel + '&userType=' + userType + '&smsCode=' + code
         }
     }
 

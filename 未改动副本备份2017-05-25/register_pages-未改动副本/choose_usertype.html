@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="../src/css/common/reset.css">
+    <link rel="stylesheet" href="../src/css/common/common.css">
+    <link rel="stylesheet" href="../src/css/register/choose_usertype.css">
+    <link rel="stylesheet" href="../src/font/iconfont.css">
+    <title>注册身份选择</title>
+</head>
+<body>
+<div class="choose-usertype">
+    <div class="nav">
+        <span class="active">选择身份</span>
+        <span>>>></span>
+        <span>免费注册</span>
+    </div>
+    <div class="usertype-wrapper">
+        <div class="content" user-type="2">
+            <i class="iconfont icon-shengchanchangjia"></i>
+            <div class="desc">
+                <p>蕾丝厂商</p>
+                <span>我是蕾丝厂商，生产优质蕾丝</span>
+            </div>
+        </div>
+    </div>
+    <div class="usertype-wrapper">
+        <div class="content"  user-type="1">
+            <i class="iconfont icon-qianbao"></i>
+            <div class="desc">
+                <p>贸易商</p>
+                <span>我是档口/贸易商 从事蕾丝贸易活动</span>
+            </div>
+        </div>
+    </div>
+    <div class="button-wrapper">
+        <button id="next" class="button button-block button-blue" disabled>下一步</button>
+    </div> 
+   
+</div>
+<script src="../src/js/utils.js"></script>
+<script>
+(function(){
+    var els = document.getElementsByClassName('usertype-wrapper'),
+        userTypeContent = document.getElementsByClassName('content'),
+        urlParams = getRequest(),
+        next = document.getElementById('next'),
+        i,
+        userType;
+        console.log(urlParams);
+    for (i = 0; i < userTypeContent.length; i++) {
+        (function(i) {
+            userTypeContent[i].addEventListener('click',  function() {
+                userType = this.getAttribute('user-type');
+                next.removeAttribute('disabled');
+            });
+        })(i);
+    }
+    //blackTip('请选择一个身份');
+    next.onclick = function () {
+        location.href = 'register.html?userType=' + userType;
+    }
+    addActive(els);
+})();
+</script>
+</body>
+</html>

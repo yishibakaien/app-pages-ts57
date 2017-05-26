@@ -254,6 +254,7 @@ function Ajax(opts) {
     }
 
     // 处理 GTE POST
+
     if (defaults.method === 'GET') {
         xhr.send(null);
     } else if (defaults.method === 'POST') {
@@ -301,6 +302,10 @@ function testName(name) {
 /**企业名字 */
 function testFirmName(str) {
     return /.{3,}/.test(str || "");
+}
+/**主营业务**/
+function testFirmBusiness(str) {
+    return /.{2,}/.test(str || "");
 }
 /**短信验证码 */
 function testVcode(str) {
