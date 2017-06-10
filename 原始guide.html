@@ -74,7 +74,8 @@
             color: #fff;
             line-height: 43px;
             font-size: 16px;
-            background-color: #3385ff;
+            font-weight: 500;
+            background-color: #4c93fd;
             display: inline-block;
             text-align: center;
             border-radius: 8px;
@@ -91,74 +92,64 @@
     <div class="logo" >
         <img src="./src/images/logo.png">
     </div>
-    <div class="btn show" id="downApp">
-        <div class="btn-ground" id="androidBtn">下载App</div><br><br>
-        <a class="btn-ground" href="./register_pages/choose_usertype.html">免费注册</a><br><br>
-    </div>
-    <!-- <div class="btn show" id="android">
+    <div class="btn show" id="android">
         <div class="btn-ground" id="androidBtn">安卓版下载</div><br><br>
         <a class="btn-ground" href="./register_pages/choose_usertype.html">免费注册</a><br><br>
     </div>
     <div class="btn hide" id="ios">
         <div class="btn-ground" id="iosBtn">IOS版下载</div><br><br>
         <a class="btn-ground" href="./register_pages/choose_usertype.html">免费注册</a><br><br>
-    </div> -->
+    </div>
 </div>
 
 
 <script>
-    var downApp = document.getElementById("downApp");
+//    默认安卓
+    var ua = navigator.userAgent;
+    var isAndroid = true;
+    var isIOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    var isWeixin = ua.match(/MicroMessenger/i) == "MicroMessenger";
+    var isQQ = (ua.indexOf("MQQBrowser") > -1);
+    var tip = document.getElementById("tip");
+    var android = document.getElementById("android");
+    var ios = document.getElementById("ios");
+    var androidBtn = document.getElementById("androidBtn");
+    var iosBtn = document.getElementById("iosBtn");
+    if(isWeixin || isQQ){
+        tip.className = tip.className.replace("hide","show");
+    }
+
+    if (isAndroid) {//是微信
+        android.className = android.className.replace("hide","show");
+    }
+
+    if (isIOS) {
+        android.className = android.className.replace("show","hide");
+        ios.className = ios.className.replace("hide","show");
+    }
 
     androidBtn.onclick = function() {
-            window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=cn.ts57.app';
+        if (isWeixin) {//是微信
+            alert('微信内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
+        } else if (isQQ) {//不是微信
+            alert('QQ内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
+        } else {
+            //地址未修改            window.location.href = '/app/haoliao-v3.30.apk';
+            window.location.href = 'https://www.baidu.com';
+
+        }
     };
-   
-//    默认安卓
-    // var ua = navigator.userAgent;
-    // var isAndroid = true;
-    // var isIOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-    // var isWeixin = ua.match(/MicroMessenger/i) == "MicroMessenger";
-    // var isQQ = (ua.indexOf("MQQBrowser") > -1);
-    // var tip = document.getElementById("tip");
-    // var android = document.getElementById("android");
-    // var ios = document.getElementById("ios");
-    // var androidBtn = document.getElementById("androidBtn");
-    // var iosBtn = document.getElementById("iosBtn");
-    // if(isWeixin || isQQ){
-    //     tip.className = tip.className.replace("hide","show");
-    // }
 
-    // if (isAndroid) {//是微信
-    //     android.className = android.className.replace("hide","show");
-    // }
-
-    // if (isIOS) {
-    //     android.className = android.className.replace("show","hide");
-    //     ios.className = ios.className.replace("hide","show");
-    // }
-
-    // androidBtn.onclick = function() {
-    //     if (isWeixin) {//是微信
-    //         alert('微信内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
-    //     } else if (isQQ) {//不是微信
-    //         alert('QQ内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
-    //     } else {
-    //         //地址未修改            window.location.href = '/app/haoliao-v3.30.apk';
-    //         window.location.href = 'https://www.baidu.com';
-
-    //     }
-    // };
-
-    // iosBtn.onclick = function() {
-    //     if (isWeixin) {//是微信
-    //         alert('微信内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
-    //     } else if (isQQ) {//不是微信
-    //         alert('QQ内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
-    //     } else {
-    //         //地址未修改            window.location.href = 'https://itunes.apple.com/cn/app/hao-liao-zhao-xiang-bao-cai/id1059970806?l=en&mt=8';
-    //         window.location.href = 'https://www.baidu.com';
-    //     }
-    // };
+    iosBtn.onclick = function() {
+        if (isWeixin) {//是微信
+            alert('微信内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
+        } else if (isQQ) {//不是微信
+            alert('QQ内无法完成下载，请点击右上角按钮选择浏览器打开，点击下面的按钮下载APP');
+        } else {
+            //地址未修改            window.location.href = 'https://itunes.apple.com/cn/app/hao-liao-zhao-xiang-bao-cai/id1059970806?l=en&mt=8';
+            window.location.href = 'https://www.baidu.com';
+        }
+    };
 </script>
 </body>
 </html>

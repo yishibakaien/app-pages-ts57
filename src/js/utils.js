@@ -254,6 +254,7 @@ function Ajax(opts) {
     }
 
     // 处理 GTE POST
+
     if (defaults.method === 'GET') {
         xhr.send(null);
     } else if (defaults.method === 'POST') {
@@ -295,14 +296,23 @@ function testPwd(pwd) {
 }
 /**用户名 */
 function testName(name) {
-    return /^[\u4E00-\u9FA5]{2,4}$/.test(name);
+    return /^[\u4E00-\u9FA5]{2,20}$/.test(name);
 }
 
 /**企业名字 */
 function testFirmName(str) {
     return /.{3,}/.test(str || "");
 }
+/**主营业务**/
+function testFirmBusiness(str) {
+    return /.{2,}/.test(str || "");
+}
 /**短信验证码 */
 function testVcode(str) {
     return /\d{4}/.test(str || "");
 }
+/**图形验证码 */
+function testImgCode(str) {
+    return /[A-Za-z0-9]{4}/.test(str || "");
+}
+

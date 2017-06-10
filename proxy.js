@@ -8,9 +8,7 @@ var httpProxy = require('http-proxy');
 
 var proxy = httpProxy.createProxyServer({
 
-    // target: 'http://192.168.1.249:8080', //接口地址
-
-    target: 'http://192.168.1.11:8080', //接口地址
+    target: 'http://192.168.2.11:8080', //接口地址
     // 下面的设置用于https
     // ssl: {
     // key: fs.readFileSync('server_decrypt.key', 'utf8'),

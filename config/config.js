@@ -1,6 +1,6 @@
 'use strict';
 
-var env = 'dev'; // 这里配置环境
+var env = 'test'; // 这里配置环境
 
 var baseURL = (function(env) {
 
