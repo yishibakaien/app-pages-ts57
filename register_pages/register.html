@@ -135,6 +135,7 @@
                     console.log(xhr);
                     console.log('xhr', xhr.getResponseHeader('x-token'));
                     Xtoken = xhr.getResponseHeader('x-token');
+                    console.info(Xtoken);
                     if (res.data === true) {
                         tip.style.color = '#f53535';
                         tip.innerHTML = message.registered;
