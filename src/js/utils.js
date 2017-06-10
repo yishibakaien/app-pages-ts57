@@ -296,7 +296,7 @@ function testPwd(pwd) {
 }
 /**用户名 */
 function testName(name) {
-    return /^[\u4E00-\u9FA5]{2,4}$/.test(name);
+    return /^[\u4E00-\u9FA5]{2,20}$/.test(name);
 }
 
 /**企业名字 */
@@ -311,3 +311,8 @@ function testFirmBusiness(str) {
 function testVcode(str) {
     return /\d{4}/.test(str || "");
 }
+/**图形验证码 */
+function testImgCode(str) {
+    return /[A-Za-z0-9]{4}/.test(str || "");
+}
+

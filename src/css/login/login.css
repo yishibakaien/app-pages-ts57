@@ -1,24 +1,24 @@
-.safety-check .nav {
+.login .nav {
     height: 50px;
     line-height: 50px;
     font-size: 14px;
     text-align: center;
 }
-.safety-check .nav .active {
+.login .nav .active {
     color: #ff7011;
 }
-.safety-check .input-wrapper {
+.login .input-wrapper {
     width: 100%;
     background: #fff;
 }
-.safety-check .input-content{
+.login .input-content{
     margin-left: 16px
 }
-.safety-check .input-wrapper .list {
+.login .input-wrapper .list {
     height: 48px;
     position: relative;
 }
-.safety-check .input-wrapper .list input {
+.login .input-wrapper .list input {
     height: 32px;
     line-height: 32px;
     padding: 8px 0;
@@ -26,7 +26,7 @@
     width: 90%;
     font-size: 15px;
 }
-.safety-check .input-wrapper .list .tip {
+.login .input-wrapper .list .tip {
     display: none;
     position: absolute;
     top: 0;
@@ -35,23 +35,53 @@
     line-height: 48px;
     font-size: 12px;
 }
-.safety-check .input-wrapper .tip .text {
+.login .input-wrapper .tip .text {
     display: inline-block;
     vertical-align: middle;
     font-size: 12px;
     color: #999;
 }
-.safety-check .getVcode .button {
+.login .getVcode .button {
     font-size: 12px;
     line-height: 14px;
     padding: 8px 6px;
 }
-.safety-check .getVcode{
+.login .getVcode{
     position: absolute;
     right: 16px;
     top: 9px;
+}
+/*图形验证码新增*/
+.login #imgCodeBox .num-img{
+    position: absolute;
+    right: 16px;
+    top: 8px;
 }
 
 .button-wrapper {
     padding: 50px 16px;
 }
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+/*登录页新增*/
+
+ .forgetPwdBox {
+     color: #666;
+     text-align: right;
+     position: relative;
+     height:10px;
+}
+
+ .forgetPwd {
+     display: inline-block;
+     position: absolute;
+     top: 22px;
+     right: 20px;
+ }

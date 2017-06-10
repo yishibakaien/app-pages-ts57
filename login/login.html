@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="../src/css/common/reset.css">
+    <link rel="stylesheet" href="../src/css/common/common.css">
+    <link rel="stylesheet" href="../src/css/login/login.css">
+    <link rel="stylesheet" href="../src/font/iconfont.css">
+    <title>登录</title>
+</head>
+<body>
+<div class="login">
+    <!--<div class="nav">-->
+        <!--<span>选择身份&ndash;&gt;</span>-->
+        <!--<span class="active"></span>-->
+        <!--<span>免费注册</span>-->
+    <!--</div>-->
+    <div class="input-wrapper">
+        <div class="input-content">
+            <div class="list border-bottom">
+                <input class="tel" type="tel" maxlength="11" autofocus="true" placeholder="请输入账号/手机号码">
+                <!--<span class="tip">-->
+                    <!--<i class="iconfont loading"></i>-->
+                    <!--<span class="text">检验手机号码</span>-->
+                <!--</span>-->
+            </div>
+            <div class="list">
+                <input class="password" type="password" placeholder="请输入密码">
+                <!--<div class="getVcode">-->
+                    <!--<button class="button button-blue" disabled>获取验证码</button>-->
+                <!--</div>-->
+            </div>
+            <div class="list border-top hide" id="imgCodeBox">
+                <input class="ipt-img" type="tel" maxlength="4" placeholder="请输入图形验证码">
+                <span class="num-img"></span>
+            </div>
+        </div>
+    </div>
+    <div class="forgetPwdBox"><span class="forgetPwd"><a href="../register_pages/choose_usertype.html">免费注册</a></span></div>
+    <div class="button-wrapper">
+        <button id="next" class="button button-block button-blue" disabled>登录</button>
+    </div>
+</div>
+<script src="../src/js/utils.js"></script>
+<!--<script src="../src/js/jquery-3.1.1.min.js"></script>-->
+<script src="../config/config.js"></script>
+<script>
+(function(){
+//    var nextUrl = getQueryString('nextUrl');
+
+    var iptTel = document.getElementsByClassName('tel')[0],
+        iptPassword = document.getElementsByClassName('password')[0],
+       /* iptCode = document.getElementsByClassName('code')[0],
+        getVcode = document.getElementsByClassName('getVcode')[0].getElementsByTagName('button')[0],*/
+        next = document.getElementById('next'),
+//        tip = document.getElementsByClassName('tip')[0],
+//        图形验证码新增
+        imgCodeBox = document.getElementById('imgCodeBox'),
+        iptImgCode = imgCodeBox.getElementsByClassName('ipt-img')[0],
+        imgNum = imgCodeBox.getElementsByClassName('num-img')[0],
+
+        imgCode,
+        imgIsHide = true,
+        imgFirstTipRemain = true,
+//      failCount = 0,
+        loginCode,
+
+        userType = getRequest().userType,
+        Xtoken,
+        tel,
+        code,
+        telFlag,
+        codeFlag,
+        timer,
+        getVcodeing = false, // 正在获取验证码（正在倒计时）状态
+        seconds = 60,
+        userData = {
+            userMobile: '',
+            userPWD: '',
+            picCode: ''
+        },
+        message = {
+            testTel: '请输入正确的手机号码',
+            telRegistered: '手机号码已被注册',
+            getCodeText: '获取验证码',
+            countStr: ' 秒后可重新获取',
+            testVcode: '验证码格式不正确',
+            testImgCode: '图形验证码格式不正确',
+            checkVcode: '验证码不正确，请重新输入',
+            checkImgCode: '图形验证码不正确，请重新输入',
+            registered: '&times;号码已被注册',
+            canRegister: '号码可用',
+            passwordText: '密码长度需大于等于6位',
+            checkError: '验证手机号码失败，请检查您的网络'
+        };
+
+//    iptTel.oninput = function() {
+//        tel = this.value;
+//        if (testTel(tel) && !getVcodeing) {
+//            tip.style.display = 'inline-block';
+//            Ajax({
+//                url: baseURL + '/front/user/checkPhone',
+//                data: {
+//                    mobile: tel
+//                },
+//                headers: {
+//                    'x-version': '1.0',
+//                    'x-client': '1'
+//                },
+//                success: function(res, status, xhr) {
+//                    //var res = JSON.parse(res);
+//                    console.log('res', res);
+//                    console.log('status', status);
+//                    console.log('xhr', xhr.getResponseHeader('x-token'));
+//                    Xtoken = xhr.getResponseHeader('x-token');
+//                    if (res.data === true) {
+//                        tip.style.color = '#f53535';
+//                        tip.innerHTML = message.registered;
+//                    } else {
+//                        tip.style.color = 'green';
+//                        tip.innerHTML = message.canRegister;
+//                        getVcode.removeAttribute('disabled');
+//                    }
+//                },
+//                error: function(res) {
+//                    console.error('error', res);
+//                    blackTip(message.checkError);
+//                }
+//            });
+//
+//        } else {
+//            getVcode.setAttribute('disabled', 'disabled');
+//        }
+//        checkTelAndCode();
+//    }
+//    iptCode.oninput = function() {
+//        code = this.value;
+//        checkTelAndCode();
+//    }
+    iptTel.oninput = function() {
+        userData.userMobile = this.value;
+        checkTelAndPwd();
+    }
+
+    iptTel.onblur = function() {
+        if (!testTel(this.value)) {
+            blackTip(message.testTel);
+        }
+    }
+    iptPassword.oninput = function() {
+        userData.userPWD = this.value;
+        checkTelAndPwd();
+    }
+    iptPassword.onblur = function() {
+        if (!testPwd(userData.userPWD)) {
+            blackTip(message.passwordText);
+        }
+    }
+//    getVcode.onclick = function() {
+//        var _this = this;
+//        if (!testTel(tel)) {
+//          blackTip(message.testTel);
+//          return;
+//        }
+//        this.setAttribute('disabled', 'disabled');
+//        getVcodeing = true;
+//
+//        Ajax({
+//            method: 'POST',
+//            url: baseURL + '/front/user/getRegSMSCode',
+//            data: {
+//                mobile: tel.toString()
+//            },
+//            headers: {
+//                'x-version': '1.0',
+//                'x-client': '1',
+//                'x-token': Xtoken
+//            },
+//            success: function(res) {
+//                // 图片验证码新增
+//                regCode = res.code;
+//                testRegCode();
+//
+//                console.log('success', res);
+//            },
+//            error: function(res) {
+//
+//                console.log(res);
+//            }
+//        });
+//
+//        timer = setInterval(function() {
+//            if (seconds > 1) {
+//                seconds--;
+//                _this.innerText = seconds + message.countStr;
+//            } else {
+//            clearInterval(timer);
+//                _this.removeAttribute('disabled');
+//                _this.innerText = message.getCodeText;
+//                getVcodeing = false;
+//                seconds = 60;
+//            }
+//        }, 1000);
+//    }
+
+//    iptCode.onblur = function() {
+////        // 验证错误次数增加
+////        failCount++;
+////        testFailNum();
+//
+//        if (!testVcode(this.value)) {
+//            blackTip(message.testVcode);
+//        }
+//    }
+    //图形验证码增加
+    testLoginCode();
+    function testLoginCode() {
+        if (loginCode === 2000004) {
+            imgCodeBox.className = imgCodeBox.className.replace('hide','show');
+            imgIsHide = false;
+            checkTelAndPwd();
+            function getImgCode() {
+                Ajax({
+                    method: 'POST',
+                    url: baseURL + '/front/user/getVerifyCode',
+                    headers: {
+                        'x-version': '1.0',
+                        'x-client': '1'
+                    },
+                    success: function (res) {
+                        imgNum.innerHTML = '<img width="72px" src="data:image/gif;base64,' + res.data + '">';
+                    },
+                       /* function(res, status, xhr) {
+                        //var res = JSON.parse(res);
+                        console.log('res', res);
+                        console.log('status', status);
+                        console.log('xhr', xhr.getResponseHeader('x-token'));
+                        Xtoken = xhr.getResponseHeader('x-token');
+                        if (res.data === true) {
+                            tip.style.color = '#f53535';
+                            tip.innerHTML = message.registered;
+                        } else {
+                            tip.style.color = 'green';
+                            tip.innerHTML = message.canRegister;
+                            getVcode.removeAttribute('disabled');
+                        }
+                    },*/
+                    error: function(res) {
+
+                        console.log(res);
+                    }
+                });
+            }
+            getImgCode();
+            imgNum.onclick = getImgCode;
+            iptImgCode.oninput = function() {
+                userData.picCode = this.value;
+                checkTelAndPwd();
+            }
+            iptImgCode.onblur = function() {
+                if (!testImgCode(this.value)) {
+                    blackTip(message.testImgCode);
+                }
+            }
+        }
+    }
+
+
+
+
+
+    function checkTelAndPwd() {
+        console.log(_check());
+        if (_check()) {
+            next.removeAttribute('disabled');
+        } else {
+            next.setAttribute('disabled', 'disabled');
+        }
+
+        function _check() {
+            if (testTel(userData.userMobile) && testPwd(userData.userPWD) && (imgIsHide || testImgCode(userData.picCode))) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+//    next.onclick = function() {
+//        // 这里checkCode
+//        if (true) {
+//            location.href = 'register.html?userMobile=' + tel + '&userType=' + userType + '&smsCode=' + code;
+//        }
+//    }
+
+
+    next.onclick = function() {
+        register(goIndex);
+        function register(cb) {
+            var data = JSON.stringify(userData);
+            console.log(data);
+            Ajax({
+                method: 'POST',
+                url: baseURL + '/front/user/login',
+                data: data,
+                headers: {
+                    'x-client': '1',
+                    'x-version': '1.0',
+                    'x-token': Xtoken
+                },
+                success: function(res) {
+                    console.log('success', res);
+                    loginCode = res.code;
+                    testLoginCode();
+                    // 取消第一次出现图片验证码的错误提示
+                    if (imgFirstTipRemain && (res.message === '图片验证错误')){
+                        imgFirstTipRemain = false;
+                    }else {
+                        blackTip(res.message, 1000, function() {
+                            if (res.code === 0) {
+                                typeof cb === 'function' && cb();
+                            }
+                        });
+                    }
+                },
+                error: function(res) {
+                    console.log(res);
+                }
+            });
+        }
+
+      function goIndex() {
+          location.href = '../guide.html?registed=1';
+      }
+    }
+})();
+</script>
+</body>
+</html>

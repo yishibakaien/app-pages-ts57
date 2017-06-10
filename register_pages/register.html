@@ -13,8 +13,8 @@
 <body>
 <div class="register">
     <div class="nav">
-        <span>选择身份</span>
-        <span>>>></span>
+        <span>选择身份--></span>
+        <span>安全验证--></span>
         <span class="active">免费注册</span>
     </div>
     <div class="input-wrapper">
@@ -106,6 +106,7 @@
             countStr: '重新获取 ',
             getCodeText: '获取验证码'
         }
+
 
     iptUsername.oninput = function() {
         userData.userName = this.value;
@@ -282,8 +283,11 @@
                 },
                 success: function(res) {
                     console.log('success', res);
+
                     blackTip(res.message, 1000, function() {
-                        typeof cb === 'function' && cb();
+                        if (res.code === 0) {
+                            typeof cb === 'function' && cb();
+                        }
                     });
                 },
                 error: function(res) {
@@ -292,7 +296,7 @@
             });
         }
         function goIndex() {
-            location.href = '../guide.html?registed=1';
+            location.href = '../login/login.html?registed=1';
         }
     }
 
@@ -315,7 +319,6 @@
             next.setAttribute('disabled', 'disabled');
         }
 
-//        此处是否要去掉当前页面的手机和验证码验证？？？
         function _check() {
             if ( testName(userData.userName) && testFirmName(userData.companyName) && /*testTel(userData.userMobile) && testVcode(userData.smsCode) &&*/ testPwd(userData.userPWD) && testFirmBusiness(userData.companyBusiness) ) {
                 return true;
@@ -324,6 +327,16 @@
             }
         }
     }
+    /*if (document.addEventListener) {
+        window.addEventListener('pageshow', function (event) {
+                if (event.persisted || window.performance &&
+                    window.performance.navigation.type == 2)
+                {
+                    location.reload();
+                }
+            },
+            false);
+    }*/
 })();
 </script>
 </body>
